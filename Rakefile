@@ -219,6 +219,8 @@ namespace :package do
       mkdir 'blast_db'
       cd 'blast_db' do
         sh 'bundle exec genevalidator ncbi-blast-dbs swissprot'
+        rm 'swissprot.tar.gz'
+        rm 'swissprot.tar.gz.md5'
       end
     end
   end
