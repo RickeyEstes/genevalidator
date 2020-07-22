@@ -93,7 +93,7 @@ task :package do
   rm_rf TMP_DIR
   mkdir TMP_DIR
   task('package:build' => ['package:linux-x86', 'package:linux-x86_64', 'package:osx']).invoke
-  rm_rf TMP_DIR
+  rm_rf TMP_DIR unless ENV['DIR_ONLY']
 end
 
 # Usage:
@@ -218,12 +218,7 @@ namespace :package do
 
       mkdir 'blast_db'
       cd 'blast_db' do
-        sh 'update_blastdb.pl --decompress swissprot' do |_, e|
-          abort 'update_blastdb.pl failed to run.' if e.exitstatus == 2
-          # This script returns 0 on successful operations that result in no
-          # downloads, 1 on successful operations that downloaded files,
-          # and 2 on errors.
-        end
+        sh 'bundle exec genevalidator ncbi-blast-dbs swissprot'
       end
     end
   end
